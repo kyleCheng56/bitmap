@@ -1,0 +1,18 @@
+python src/train_bash.py \
+    --model_name_or_path ./models/deepseek-r1-qwen1.5b \  # 本地模型路径
+    --dataset mini_train \                  # 数据集名称（不带.json后缀）https://github.com/kyleCheng56/bitmap/tree/master
+    --output_dir outputs/deepseek-finetuned \
+    --batch_size 1 \                       # CPU必须=1
+    --num_train_epochs 2 \
+    --learning_rate 3e-5 \
+    --use_lora \
+    --lora_rank 4 \
+    --lora_target_modules "c_attn" \       # Qwen专用模块
+    --device cpu \
+    --fp16 False \
+    --gradient_checkpointing \
+    --report_to "none" \
+    --use_qwen \                           # 关键！启用Qwen架构
+    --trust_remote_code \                  # 关键！允许加载自定义代码
+    --max_source_length 256 \              # 控制内存占用
+    --max_target_length 128
